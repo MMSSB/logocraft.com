@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <title>LogoCraft</title>
+
+    <meta name="description" content="logo Generator">
+    <link rel="shortcut icon" href="images/logo.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-light: #93c5fd;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #6b7280;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Poppins", sans-serif;
+            background-color: #f3f4f6;
+            color: var(--dark);
+            line-height: 1.6;
+            background-image: url(./images/art.jpg);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .subtitle {
+            color: var(--gray);
+            font-weight: 400;
+        }
+        
+        .app {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .app {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .logo-preview {
+            background-color: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            order: 2;
+        }
+        
+        .logo-preview2 {
+            background-color: rgb(196, 196, 196);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            order: 2;
+        }
+        
+        .logo-container {
+            margin: 2rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            background: var(--primary);
+            color: white;
+        }
+        
+        .controls {
+            background-color: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            order: 1;
+        }
+        
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .control-group h3 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: var(--dark);
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            transition: border-color 0.2s;
+        }
+        
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .color-picker {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .color-picker input[type="color"] {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #f0f7ff;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .shape-options {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .shape-option {
+            width: 100%;
+            aspect-ratio: 1;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .shape-option:hover {
+            border-color: var(--primary-light);
+        }
+        
+        .shape-option.active {
+            border-color: var(--primary);
+            background-color: #f0f7ff;
+        }
+        
+        .shape-preview {
+            width: 60%;
+            height: 60%;
+            background-color: var(--primary);
+        }
+        
+        .circle {
+            border-radius: 50%;
+        }
+        
+        .rounded-square {
+            border-radius: 0.75rem;
+        }
+        
+        .square {
+            border-radius: 0;
+        }
+        
+        .squircle {
+            border-radius: 25%;
+        }
+        
+        .diamond {
+            transform: rotate(45deg);
+            overflow: hidden;
+        }
+        
+        .diamond-inner {
+            transform: rotate(-45deg);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hexagon {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+        
+        .octagon {
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+        }
+            .triangle-up {
+      width: 0;
+      height: 0;
+      border-left: 50px solid transparent;
+      border-right: 50px solid transparent;
+      border-bottom: 100px solid #3b82f6;
+      color: white;
+      background-color: white;
+    }
+    /* Add to your existing shape styles */
+.pentagon {
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+}
+
+.star {
+    clip-path: polygon(
+        50% 0%,
+        61% 35%,
+        98% 35%,
+        68% 57%,
+        79% 91%,
+        50% 70%,
+        21% 91%,
+        32% 57%,
+        2% 35%,
+        39% 35%
+    );
+}
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: 1.25rem;
+            height: 1.25rem;
+            accent-color: var(--primary);
+        }
+        
+        .shadow-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .download-btn {
+            width: 100%;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        
+        .size-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .font-preview {
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Logo Generator</h1>
+            <p class="subtitle">Create and customize your perfect logo with more options</p>
+        </header>
+        
+        <div class="app">
+            <div class="logo-preview">
+                <h2>Preview</h2>
+                <div class="logo-container">
+                    <div id="logo" class="logo rounded-square" style="width: 150px; height: 150px; font-size: 3rem; border-radius: 0.75rem;">
+                        Logo
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button id="downloadBtn" class="btn download-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Download Logo
+                    </button>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <h3>Logo Text</h3>
+                    <label for="logoText">Text Content</label>
+                    <input type="text" id="logoText" value="Logo" maxlength="10">
+                    
+                    <label for="fontFamily">Font Family</label>
+                    <select id="fontFamily">
+                        <option value="Poppins">Poppins</option>
+                        <option value="Montserrat">Montserrat</option>
+                        <option value="Roboto">Roboto</option>
+                        <option value="Playfair Display">Playfair Display</option>
+                        <option value="Raleway">Raleway</option>
+                        <option value="Arial">Arial</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Courier New">Courier New</option>
+                        <option value="Timesnewroman">Times New Roman</option>
+                    </select>
+                    <div id="fontPreview" class="font-preview">Sample text in selected font</div>
+                    
+                    <label for="fontSize">Font Size (px)</label>
+                    <input type="number" id="fontSize" value="48" min="10" max="200">
+                    
+                    <label for="fontWeight">Font Weight</label>
+                    <select id="fontWeight">
+                        <option value="300">Light (300)</option>
+                        <option value="400">Regular (400)</option>
+                        <option value="500" selected>Medium (500)</option>
+                        <option value="600">Semi-bold (600)</option>
+                        <option value="700">Bold (700)</option>
+                        <option value="800">Extra-bold (800)</option>
+                        <option value="900">Black (900)</option>
+                    </select>
+                    
+                    <label for="textTransform">Text Transformation</label>
+                    <select id="textTransform">
+                        <option value="none" selected>None</option>
+                        <option value="uppercase">UPPERCASE</option>
+                        <option value="lowercase">lowercase</option>
+                        <option value="capitalize">Capitalize</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <h3>Colors</h3>
+                    <label>Background Color</label>
+                    <div class="color-picker">
+                        <input type="color" id="bgColor" value="#3b82f6">
+                        <input type="text" id="bgColorText" value="#3b82f6">
+                    </div>
+                    
+                    <label>Text Color</label>
+                    <div class="color-picker">
+                        <input type="color" id="textColor" value="#ffffff">
+                        <input type="text" id="textColorText" value="#ffffff">
+                    </div>
+                    
+                    <label>Border Color</label>
+                    <div class="color-picker">
+                        <input type="color" id="borderColor" value="#3b82f6">
+                        <input type="text" id="borderColorText" value="#3b82f6">
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="addBorder">
+                        <label for="addBorder">Add Border</label>
+                    </div>
+                    
+                    <div id="borderControls" style="display: none;">
+                        <label for="borderWidth">Border Width (px)</label>
+                        <input type="number" id="borderWidth" value="2" min="1" max="20">
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <h3>Shape & Size</h3>
+                    <label>Shape</label>
+                    <div class="shape-options">
+                        <div class="shape-option active" data-shape="rounded-square">
+                            <div class="shape-preview rounded-square"></div>
+                        </div>
+                        <div class="shape-option" data-shape="circle">
+                            <div class="shape-preview circle"></div>
+                        </div>
+                        <div class="shape-option" data-shape="square">
+                            <div class="shape-preview square"></div>
+                        </div>
+                        <div class="shape-option" data-shape="squircle">
+                            <div class="shape-preview squircle"></div>
+                        </div>
+                        <div class="shape-option" data-shape="diamond">
+                            <div class="shape-preview diamond">
+                                <div class="diamond-inner"></div>
+                            </div>
+                        </div>
+                        <div class="shape-option" data-shape="hexagon">
+                            <div class="shape-preview hexagon"></div>
+                        </div>
+                        <div class="shape-option" data-shape="octagon">
+                            <div class="shape-preview octagon"></div>
+                        </div>
+                        <!-- <div class="shape-option" data-shape="triangle-up">
+                            <div class="shape-preview triangle-up"></div>
+                        </div> -->
+
+    <!-- Existing shapes... -->
+    <div class="shape-option" data-shape="pentagon">
+        <div class="shape-preview pentagon"></div>
+    </div>
+    <div class="shape-option" data-shape="star">
+        <div class="shape-preview star"></div>
+    </div>
+
+                    </div>
+                    
+                    <div class="size-controls">
+                        <div>
+                            <label for="logoWidth">Width (px)</label>
+                            <input type="number" id="logoWidth" value="150" min="50" max="500">
+                        </div>
+                        <div>
+                            <label for="logoHeight">Height (px)</label>
+                            <input type="number" id="logoHeight" value="150" min="50" max="500">
+                        </div>
+                    </div>
+                    
+                    <label for="borderRadius">Corner Radius (px)</label>
+                    <input type="number" id="borderRadius" value="12" min="0" max="100">
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="lockAspectRatio" checked>
+                        <label for="lockAspectRatio">Lock Aspect Ratio</label>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <h3>Effects</h3>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="addShadow" checked>
+                        <label for="addShadow">Add Shadow</label>
+                    </div>
+                    
+                    <div id="shadowControls" class="shadow-controls">
+                        <div>
+                            <label for="shadowColor">Shadow Color</label>
+                            <input type="color" id="shadowColor" value="#000000">
+                        </div>
+                        <div>
+                            <label for="shadowOpacity">Shadow Opacity</label>
+                            <input type="number" id="shadowOpacity" value="20" min="0" max="100" step="5">
+                        </div>
+                        <div>
+                            <label for="shadowBlur">Blur (px)</label>
+                            <input type="number" id="shadowBlur" value="6" min="0" max="20">
+                        </div>
+                        <div>
+                            <label for="shadowOffset">Offset (px)</label>
+                            <input type="number" id="shadowOffset" value="4" min="0" max="20">
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="addGradient">
+                        <label for="addGradient">Add Gradient</label>
+                    </div>
+                    
+                    <div id="gradientControls" style="display: none;">
+                        <label>Gradient Color 1</label>
+                        <div class="color-picker">
+                            <input type="color" id="gradientColor1" value="#3b82f6">
+                            <input type="text" id="gradientColor1Text" value="#3b82f6">
+                        </div>
+                        <label>Gradient Color 2</label>
+                        <div class="color-picker">
+                            <input type="color" id="gradientColor2" value="#1d4ed8">
+                            <input type="text" id="gradientColor2Text" value="#1d4ed8">
+                        </div>
+                        <label for="gradientDirection">Gradient Direction</label>
+                        <select id="gradientDirection">
+                            <option value="to right">Horizontal</option>
+                            <option value="to bottom">Vertical</option>
+                            <option value="to bottom right">Diagonal</option>
+                            <option value="circle">Radial</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+// DOM Elements (same as before)
+const logo = document.getElementById('logo');
+const logoText = document.getElementById('logoText');
+const fontFamily = document.getElementById('fontFamily');
+const fontPreview = document.getElementById('fontPreview');
+const fontSize = document.getElementById('fontSize');
+const fontWeight = document.getElementById('fontWeight');
+const textTransform = document.getElementById('textTransform');
+const bgColor = document.getElementById('bgColor');
+const bgColorText = document.getElementById('bgColorText');
+const textColor = document.getElementById('textColor');
+const textColorText = document.getElementById('textColorText');
+const borderColor = document.getElementById('borderColor');
+const borderColorText = document.getElementById('borderColorText');
+const addBorder = document.getElementById('addBorder');
+const borderControls = document.getElementById('borderControls');
+const borderWidth = document.getElementById('borderWidth');
+const logoWidth = document.getElementById('logoWidth');
+const logoHeight = document.getElementById('logoHeight');
+const borderRadius = document.getElementById('borderRadius');
+const lockAspectRatio = document.getElementById('lockAspectRatio');
+const addShadow = document.getElementById('addShadow');
+const shadowColor = document.getElementById('shadowColor');
+const shadowOpacity = document.getElementById('shadowOpacity');
+const shadowBlur = document.getElementById('shadowBlur');
+const shadowOffset = document.getElementById('shadowOffset');
+const shadowControls = document.getElementById('shadowControls');
+const addGradient = document.getElementById('addGradient');
+const gradientControls = document.getElementById('gradientControls');
+const gradientColor1 = document.getElementById('gradientColor1');
+const gradientColor1Text = document.getElementById('gradientColor1Text');
+const gradientColor2 = document.getElementById('gradientColor2');
+const gradientColor2Text = document.getElementById('gradientColor2Text');
+const gradientDirection = document.getElementById('gradientDirection');
+const shapeOptions = document.querySelectorAll('.shape-option');
+const downloadBtn = document.getElementById('downloadBtn');
+
+// Initialize
+updateLogo();
+updateFontPreview();
+
+// Event Listeners (simplified without aspect ratio locking)
+logoText.addEventListener('input', updateLogo);
+fontFamily.addEventListener('change', () => {
+    updateLogo();
+    updateFontPreview();
+});
+fontSize.addEventListener('input', updateLogo);
+fontWeight.addEventListener('change', updateLogo);
+textTransform.addEventListener('change', updateLogo);
+bgColor.addEventListener('input', () => {
+    bgColorText.value = bgColor.value;
+    updateLogo();
+});
+bgColorText.addEventListener('input', () => {
+    bgColor.value = bgColorText.value;
+    updateLogo();
+});
+textColor.addEventListener('input', () => {
+    textColorText.value = textColor.value;
+    updateLogo();
+});
+textColorText.addEventListener('input', () => {
+    textColor.value = textColorText.value;
+    updateLogo();
+});
+borderColor.addEventListener('input', () => {
+    borderColorText.value = borderColor.value;
+    updateLogo();
+});
+borderColorText.addEventListener('input', () => {
+    borderColor.value = borderColorText.value;
+    updateLogo();
+});
+addBorder.addEventListener('change', toggleBorder);
+borderWidth.addEventListener('input', updateLogo);
+
+// Free sizing - no aspect ratio locking
+logoWidth.addEventListener('input', updateLogo);
+logoHeight.addEventListener('input', updateLogo);
+
+borderRadius.addEventListener('input', updateLogo);
+
+// Remove aspect ratio locking completely
+lockAspectRatio.style.display = 'none'; // Hide the checkbox
+
+addShadow.addEventListener('change', toggleShadow);
+shadowColor.addEventListener('input', updateLogo);
+shadowOpacity.addEventListener('input', updateLogo);
+shadowBlur.addEventListener('input', updateLogo);
+shadowOffset.addEventListener('input', updateLogo);
+addGradient.addEventListener('change', toggleGradient);
+gradientColor1.addEventListener('input', () => {
+    gradientColor1Text.value = gradientColor1.value;
+    updateLogo();
+});
+gradientColor1Text.addEventListener('input', () => {
+    gradientColor1.value = gradientColor1Text.value;
+    updateLogo();
+});
+gradientColor2.addEventListener('input', () => {
+    gradientColor2Text.value = gradientColor2.value;
+    updateLogo();
+});
+gradientColor2Text.addEventListener('input', () => {
+    gradientColor2.value = gradientColor2Text.value;
+    updateLogo();
+});
+gradientDirection.addEventListener('change', updateLogo);
+
+// Shape selection
+shapeOptions.forEach(option => {
+    option.addEventListener('click', () => {
+        shapeOptions.forEach(opt => opt.classList.remove('active'));
+        option.classList.add('active');
+        const shape = option.dataset.shape;
+        logo.className = 'logo ' + shape;
+        
+        // Update borderRadius input based on shape
+        if (shape === 'circle') {
+            borderRadius.value = 50;
+            borderRadius.disabled = true;
+        } else if (shape === 'square') {
+            borderRadius.value = 0;
+            borderRadius.disabled = true;
+        } else if (shape === 'squircle') {
+            borderRadius.value = 25;
+            borderRadius.disabled = true;
+        } else if (shape === 'diamond' || shape === 'hexagon' || shape === 'octagon' || shape === 'triangle-up' || shape === 'pentagon' || shape === 'star') {
+            borderRadius.disabled = true;
+        } else {
+            borderRadius.disabled = false;
+        }
+        
+        updateLogo();
+    });
+});
+
+// Download button
+downloadBtn.addEventListener('click', downloadLogo);
+
+// Functions (same as before except removed aspect ratio logic)
+function updateLogo() {
+    // Update text
+    logo.textContent = logoText.value;
+    
+    // Update font
+    logo.style.fontFamily = fontFamily.value;
+    logo.style.fontSize = `${fontSize.value}px`;
+    logo.style.fontWeight = fontWeight.value;
+    logo.style.textTransform = textTransform.value;
+    
+    // Update colors
+    if (addGradient.checked) {
+        if (gradientDirection.value === 'circle') {
+            logo.style.background = `radial-gradient(circle, ${gradientColor1.value}, ${gradientColor2.value})`;
+        } else {
+            logo.style.background = `linear-gradient(${gradientDirection.value}, ${gradientColor1.value}, ${gradientColor2.value})`;
+        }
+    } else {
+        logo.style.background = bgColor.value;
+    }
+    
+    logo.style.color = textColor.value;
+    
+    // Update border
+    if (addBorder.checked) {
+        logo.style.border = `${borderWidth.value}px solid ${borderColor.value}`;
+    } else {
+        logo.style.border = 'none';
+    }
+    
+    // Update size - completely independent
+    logo.style.width = `${logoWidth.value}px`;
+    logo.style.height = `${logoHeight.value}px`;
+    
+    // Update shape
+    if (logo.classList.contains('circle')) {
+        logo.style.borderRadius = '50%';
+    } else if (logo.classList.contains('square')) {
+        logo.style.borderRadius = '0';
+    } else if (logo.classList.contains('squircle')) {
+        logo.style.borderRadius = '25%';
+    } else if (logo.classList.contains('diamond')) {
+        logo.style.borderRadius = '0';
+        logo.style.transform = 'rotate(45deg)';
+    } else if (logo.classList.contains('hexagon')) {
+        logo.style.borderRadius = '0';
+        logo.style.clipPath = 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)';
+    } else if (logo.classList.contains('octagon')) {
+        logo.style.borderRadius = '0';
+        logo.style.clipPath = 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)';
+    } else if (logo.classList.contains('triangle-up')) {
+        logo.style.borderRadius = '0';
+        logo.style.clipPath = 'none';
+        logo.style.width = '0';
+        logo.style.height = '0';
+        logo.style.borderLeft = `${logoWidth.value/2}px solid transparent`;
+        logo.style.borderRight = `${logoWidth.value/2}px solid transparent`;
+        logo.style.borderBottom = `${logoHeight.value}px solid ${bgColor.value}`;
+    } else if (logo.classList.contains('pentagon')) {
+        logo.style.clipPath = 'polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%)';
+    } else if (logo.classList.contains('star')) {
+        logo.style.clipPath = 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)';
+    } else {
+        logo.style.transform = 'none';
+        logo.style.clipPath = 'none';
+        logo.style.borderRadius = `${borderRadius.value}px`;
+        logo.style.width = `${logoWidth.value}px`;
+        logo.style.height = `${logoHeight.value}px`;
+        logo.style.borderLeft = 'none';
+        logo.style.borderRight = 'none';
+        logo.style.borderBottom = 'none';
+    }
+    
+    // Update shadow
+    if (addShadow.checked) {
+        const opacity = shadowOpacity.value / 100;
+        const hex = shadowColor.value;
+        const rgb = hexToRgb(hex);
+        logo.style.boxShadow = `0 ${shadowOffset.value}px ${shadowBlur.value}px rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${opacity})`;
+    } else {
+        logo.style.boxShadow = 'none';
+    }
+}
+
+function updateFontPreview() {
+    fontPreview.style.fontFamily = fontFamily.value;
+}
+
+function toggleBorder() {
+    borderControls.style.display = addBorder.checked ? 'block' : 'none';
+    updateLogo();
+}
+
+function toggleShadow() {
+    shadowControls.style.display = addShadow.checked ? 'grid' : 'none';
+    updateLogo();
+}
+
+function toggleGradient() {
+    gradientControls.style.display = addGradient.checked ? 'block' : 'none';
+    updateLogo();
+}
+
+function hexToRgb(hex) {
+    // Remove # if present
+    hex = hex.replace('#', '');
+    
+    // Parse r, g, b values
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    
+    return { r, g, b };
+}
+
+function downloadLogo() {
+    // Create a clone of the logo with higher resolution
+    const clone = logo.cloneNode(true);
+    clone.style.width = `${logoWidth.value * 2}px`;
+    clone.style.height = `${logoHeight.value * 2}px`;
+    clone.style.fontSize = `${parseInt(fontSize.value) * 2}px`;
+    clone.style.position = 'absolute';
+    clone.style.left = '-9999px';
+    
+    // Handle special shapes for the clone
+    if (clone.classList.contains('diamond')) {
+        clone.style.transform = 'rotate(45deg)';
+    } else if (clone.classList.contains('hexagon')) {
+        clone.style.clipPath = 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)';
+    } else if (clone.classList.contains('octagon')) {
+        clone.style.clipPath = 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)';
+    } else if (clone.classList.contains('triangle-up')) {
+        clone.style.borderLeft = `${logoWidth.value}px solid transparent`;
+        clone.style.borderRight = `${logoWidth.value}px solid transparent`;
+        clone.style.borderBottom = `${logoHeight.value * 2}px solid ${bgColor.value}`;
+    } else if (clone.classList.contains('pentagon')) {
+        clone.style.clipPath = 'polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%)';
+    } else if (clone.classList.contains('star')) {
+        clone.style.clipPath = 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)';
+    }
+    
+    document.body.appendChild(clone);
+
+    // Ensure the parent container has a transparent background
+    const parent = document.createElement('div');
+    parent.style.backgroundColor = 'transparent';
+    parent.style.position = 'absolute';
+    parent.style.left = '-9999px';
+    parent.appendChild(clone);
+    document.body.appendChild(parent);
+
+    html2canvas(clone, {
+        backgroundColor: null,
+        scale: 2,
+        logging: false,
+        useCORS: true
+    }).then(canvas => {
+        // Remove the cloned elements
+        document.body.removeChild(parent);
+
+        // Create download link
+        const link = document.createElement('a');
+        link.download = 'logo.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    }).catch(error => {
+        console.error('Error generating canvas:', error);
+    });
+}
+    </script>
+</body>
+</html>
